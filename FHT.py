@@ -16,27 +16,32 @@ for root, dirnames, files in os.walk(inputDir):
         for filename in files:
             if not filename.startswith('.'):
                 with open(os.path.join(root, filename),"rb") as File:
-                    f = File.read()
-                    b = bytearray(f)
-
-                    if len(b) < headerSize:
-                        continue
-                    else:
-                        header_array = []
-                        for i in range(headerSize) :
-                            header_array.append(b[i])
-                    print filename, header_array
-
-
-                    for i in range(len(header_array)):
-                        old_fingerprint[i][header_array[i]]=1
-                    for i in range(headerSize):
-                        for j in range(n):
-                            if(current_fingerprint[i][j] == 0 and old_fingerprint[i][j] == 0):
+                        try:
+                            f = File.read()
+                            b = bytearray(f)
+        
+                            if len(b) < headerSize:
                                 continue
                             else:
-                                current_fingerprint[i][j]=((current_fingerprint[i][j]*pnf)+old_fingerprint[i][j])/(pnf+1)*1.0
-                    pnf+=1
+                                header_array = []
+                                for i in range(headerSize) :
+                                    header_array.append(b[i])
+                            print filename, header_array
+        
+        
+                            for i in range(len(header_array)):
+                                old_fingerprint[i][header_array[i]]=1
+                            for i in range(headerSize):
+                                for j in range(n):
+                                    if(current_fingerprint[i][j] == 0 and old_fingerprint[i][j] == 0):
+                                        continue
+                                    else:
+                                        current_fingerprint[i][j]=((current_fingerprint[i][j]*pnf)+old_fingerprint[i][j])/(pnf+1)*1.0
+                            pnf+=1
+                        except Exception, ex:
+                                print ex
+                                continue
+                                
 
 with open("FHT_fingerprint","ab") as f:
     f.write(str(headerSize)+" "+str(current_fingerprint)+"\n")
