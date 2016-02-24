@@ -38,8 +38,11 @@ for root, dirnames, files in os.walk(inputDir):
                                     else:
                                         current_fingerprint[i][j]=((current_fingerprint[i][j]*pnf)+old_fingerprint[i][j])/(pnf+1)*1.0
                             pnf+=1
-                        except Exception, ex:
-                                print ex
+                        except OSError as exc:
+                                print(exc.strerror)
+
+                        except Exception, err:
+                                print(traceback.format_exc())
                                 continue
                                 
 
