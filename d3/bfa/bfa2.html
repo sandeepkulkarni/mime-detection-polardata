@@ -13,7 +13,7 @@
 
     <script type="text/javascript">
         //svg
-        var svg = dimple.newSvg("#chartContainer", 1280, 600);
+        /*var svg = dimple.newSvg("#chartContainer", 1280, 600);
 
         d3.json("bfa_fp.json", function(data){
 
@@ -28,7 +28,7 @@
             myChart.addLegend(60, 10, 500, 20, "right");
             myChart.draw();*/
 
-            chart = new dimple.chart(svg);
+/*            chart = new dimple.chart(svg);
 
             x = chart.addMeasureAxis("x", "index");
             y1 = chart.addMeasureAxis("y", "frequency");
@@ -53,24 +53,34 @@
             chart.draw();
 
 
-        });
+        });*/
 
-        /*var svg = dimple.newSvg("#chartContainer", 590, 400);
-        d3.tsv("example_data.tsv", function (data) {
+        /*
+        x - month - index
+        owner - mimetype
+
+        * */
+       /*data = [
+           {'index': 0, 'freq': 0.567, 'mimetype': 'xml'},
+
+       ]*/
+
+        var svg = dimple.newSvg("#chartContainer", 1280, 600);
+        d3.json("bfa_fp.json", function (data) {
             //data = dimple.filterData(data, "Owner", ["Aperture", "Black Mesa"])
 
             var myChart = new dimple.chart(svg, data);
-            myChart.setBounds(60, 30, 505, 305);
+            myChart.setBounds(60, 30, 1200, 500);
 
-            var x = myChart.addCategoryAxis("x", "Month");
-            x.addOrderRule("Date");
+            var x = myChart.addCategoryAxis("x", "index");
+            x.addOrderRule("index");
 
-            myChart.addMeasureAxis("y", "Unit Sales");
-            myChart.addSeries("Owner", dimple.plot.line);
+            myChart.addMeasureAxis("y", "frequency");
+            myChart.addSeries("mimetype", dimple.plot.line);
 
             myChart.addLegend(60, 10, 500, 20, "right");
             myChart.draw();
-        });*/
+        });
 
     </script>
 </div>

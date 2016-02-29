@@ -17,8 +17,8 @@ records = []
 for id, val in enumerate(arr):
     print id
     print float(val)
-    record = {'index_gzip':id, 'frequency':val}
+    record = {'index':id, 'mimetype':'xml', 'frequency':val}
     records.append(record)
 
-json_data = json.dumps({'gzip': records})
+json_data = json.dumps(records)
 print json_data
