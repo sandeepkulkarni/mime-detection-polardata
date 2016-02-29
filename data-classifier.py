@@ -6,8 +6,8 @@ import traceback
 
 
 #rootdir="/Users/rrgirish/Downloads"
-rootdir=os.path.normpath("E:/datasetfull")
-outdir=os.path.normpath("E:/polardata_sorted")
+rootdir=os.path.normpath("F:/datasetfull")
+outdir=os.path.normpath("F:/polardata_sorted")
 
 
 
