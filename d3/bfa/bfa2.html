@@ -66,146 +66,162 @@
 
     <div class="row">
         <div class="col-xs-11">
-
-            <div id="chartContainer">
-
-                <script type="text/javascript">
-
-                    var svg = dimple.newSvg("#chartContainer", 1020, 600);
-                    d3.json("bfa_fp.json", function (data) {
-                        data = dimple.filterData(data, "mimetype", ["html", "xml"]);
-
-                        var myChart = new dimple.chart(svg, data);
-                        myChart.setBounds(60, 30, 970, 500);
-
-                        var x = myChart.addCategoryAxis("x", "index");
-                        x.addOrderRule("index");
-
-                        myChart.addMeasureAxis("y", "frequency");
-                        myChart.addSeries("mimetype", dimple.plot.line);
-
-                        myChart.addLegend(30, 10, 930, 20, "right");
-                        myChart.draw();
-                        cleanAxis(x, 10);
-                    });
-
-                    // Pass in an axis object and an interval.
-                    var cleanAxis = function (axis, oneInEvery) {
-                        // This should have been called after draw, otherwise do nothing
-                        if (axis.shapes.length > 0) {
-                            // Leave the first label
-                            var del = 0;
-                            // If there is an interval set
-                            if (oneInEvery > 1) {
-                                // Operate on all the axis text
-                                axis.shapes.selectAll("text").each(function (d) {
-                                    // Remove all but the nth label
-                                    if (del % oneInEvery !== 0) {
-                                        this.remove();
-                                        // Find the corresponding tick line and remove
-                                        axis.shapes.selectAll("line").each(function (d2) {
-                                            if (d === d2) {
-                                                this.remove();
-                                            }
-                                        });
-                                    }
-                                    del += 1;
-                                });
-                            }
-                        }
-                    };
-
-                </script>
-            </div>
+            <div id="chartContainer"></div>
         </div>
-
         <div class="col-xs-1">
-            <form role="form">
+            <form role="form" id="mimetype-form">
                 <strong>Select Mimetype</strong>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="xml">XML
+                        <input type="checkbox" class="checkbox" value="xml" checked>XML
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="mpeg">MPEG
+                        <input type="checkbox" class="checkbox" value="mpeg">MPEG
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="x-wav">X-WAV
+                        <input type="checkbox" class="checkbox" value="x-wav">X-WAV
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="gzip">GZIP
+                        <input type="checkbox" class="checkbox" value="gzip">GZIP
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="gif">GIF
+                        <input type="checkbox" class="checkbox" value="gif">GIF
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="jpeg">JPEG
+                        <input type="checkbox" class="checkbox" value="jpeg">JPEG
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="png">PNG
+                        <input type="checkbox" class="checkbox" value="png">PNG
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="svg+xml">SVG+XML
+                        <input type="checkbox" class="checkbox" value="svg+xml">SVG+XML
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="tiff">TIFF
+                        <input type="checkbox" class="checkbox" value="tiff">TIFF
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="pdf">PDF
+                        <input type="checkbox" class="checkbox" value="pdf">PDF
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="html">HTML
+                        <input type="checkbox" class="checkbox" value="html">HTML
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="mp4">MP4
+                        <input type="checkbox" class="checkbox" value="mp4">MP4
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="quicktime">QUICK TIME
+                        <input type="checkbox" class="checkbox" value="quicktime">QUICK TIME
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" value="zip">ZIP
+                        <input type="checkbox" class="checkbox" value="zip">ZIP
                     </label>
                 </div>
-                <div class="checkbox">
+                <!--div class="checkbox">
                     <label>
-                        <input type="checkbox" value="octet-stream">OCTET-STREAM
+                        <input type="checkbox" class="checkbox" value="octet-stream">OCTET-STREAM
                     </label>
-                </div>
-
-
+                </div-->
             </form>
         </div>
 
     </div><!-- /row -->
 
-    </div> <!-- /container -->
+</div> <!-- /container -->
+
+<script type="text/javascript">
+    var allVals = ["xml"];
+    function populateCheckedValues() {
+        allVals = [];
+        $('#mimetype-form :checked').each(function() {
+            allVals.push($(this).val());
+        });
+    }
+
+    $( document ).ready(function() {
+        updateData(allVals);
+        $(".checkbox").change(function() {
+            //if(this.checked) {
+                populateCheckedValues();
+                //alert(allVals);
+                updateData();
+            //}
+        });
+    });
+
+    function updateData() {
+        $('#chartContainer').empty();
+        var svg = dimple.newSvg("#chartContainer", 1030, 600);
+        d3.json("bfa_fp.json", function (data) {
+            data = dimple.filterData(data, "mimetype", /*["html", "xml"]*/ allVals);
+
+            var myChart = new dimple.chart(svg, data);
+            myChart.setBounds(60, 30, 960, 500);
+
+            var x = myChart.addCategoryAxis("x", "index");
+            x.addOrderRule("index");
+
+            myChart.addMeasureAxis("y", "frequency");
+            myChart.addSeries("mimetype", dimple.plot.line);
+
+            myChart.addLegend(5, 10, 1030, 20, "right");
+            myChart.draw();
+            cleanAxis(x, 5);
+        });
+
+        // Pass in an axis object and an interval.
+        var cleanAxis = function (axis, oneInEvery) {
+            // This should have been called after draw, otherwise do nothing
+            if (axis.shapes.length > 0) {
+                // Leave the first label
+                var del = 0;
+                // If there is an interval set
+                if (oneInEvery > 1) {
+                    // Operate on all the axis text
+                    axis.shapes.selectAll("text").each(function (d) {
+                        // Remove all but the nth label
+                        if (del % oneInEvery !== 0) {
+                            this.remove();
+                            // Find the corresponding tick line and remove
+                            axis.shapes.selectAll("line").each(function (d2) {
+                                if (d === d2) {
+                                    this.remove();
+                                }
+                            });
+                        }
+                        del += 1;
+                    });
+                }
+            }
+        };
+    }
+
+</script>
 
 </body>
 </html>
