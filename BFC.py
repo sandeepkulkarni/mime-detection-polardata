@@ -32,7 +32,7 @@ for root, dirnames, files in os.walk(inputDir):
                     normalized_freq_distribution = copy.deepcopy(freq_distribution)
 
                     for i in range(len(normalized_freq_distribution)):
-                        normalized_freq_distribution[i] = sqrt(normalized_freq_distribution[i]/maxFreq*1.0)
+                        normalized_freq_distribution[i] = sqrt(normalized_freq_distribution[i]/(maxFreq*1.0))
 
                     #print normalized_freq_distribution
 
