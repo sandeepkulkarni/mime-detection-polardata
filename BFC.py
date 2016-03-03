@@ -63,14 +63,14 @@ for root, dirnames, files in os.walk(inputDir):
 with open("BFC_fingerprint","wb") as f:
     #f.write(str(fingerprint))
 
-    """
+
     data = []
-    for i in range(n):
+    for i in range(0,n,5):
         data.append(str(i))
     json_data = json.dumps(data)
     print json_data
-    """
 
+    """
     data = []
     for i in range(n):
         for j in range(n):
@@ -78,7 +78,7 @@ with open("BFC_fingerprint","wb") as f:
             data.append(link)
 
     json_data = json.dumps(data)
-
-    f.write(json_data)
+    """
+    #f.write(json_data)
 
 #print fingerprint
