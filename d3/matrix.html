@@ -18,9 +18,6 @@
     }
 </style>
 <script src="//d3js.org/d3.v2.min.js" charset="utf-8"></script>
-
-<h2> Matrix Visualization</h2>
-
 <aside>
     <p>Order: <select id="order">
         <option value="name">by Name</option>
@@ -33,11 +30,11 @@
 <script>
 
     var margin = {top: 80, right: 0, bottom: 10, left: 80},
-            width = 720,
-            height = 720;
+            width = 1120,
+            height = 800;
 
     var x = d3.scale.ordinal().rangeBands([0, width]),
-            z = d3.scale.linear().domain([0, 4]).clamp(true),
+            z = d3.scale.linear().domain([0, 255]).clamp(true),
             c = d3.scale.category10().domain(d3.range(10));
 
     var svg = d3.select("body").append("svg")
@@ -47,7 +44,7 @@
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.json("miserables.json", function(miserables) {
+    d3.json("bfc.json", function(miserables) {
         var matrix = [],
                 nodes = miserables.nodes,
                 n = nodes.length;
@@ -60,7 +57,7 @@
         });
 
         // Convert links to matrix; count character occurrences.
-        miserables.links.forEach(function(link) {
+        miserables.upLinks.forEach(function(link) {
             matrix[link.source][link.target].z += link.value;
             matrix[link.target][link.source].z += link.value;
             matrix[link.source][link.source].z += link.value;

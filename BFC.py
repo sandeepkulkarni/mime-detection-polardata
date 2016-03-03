@@ -4,6 +4,7 @@ import os
 import copy
 from math import sqrt
 from math import exp
+import json
 
 pnf = 0
 sigma = 0.0375
@@ -31,9 +32,11 @@ for root, dirnames, files in os.walk(inputDir):
                     maxFreq = max(freq_distribution)
                     normalized_freq_distribution = copy.deepcopy(freq_distribution)
 
-                    for i in range(len(normalized_freq_distribution)):
-                        normalized_freq_distribution[i] = sqrt(normalized_freq_distribution[i]/(maxFreq*1.0))
-
+                    if (maxFreq):
+                        for i in range(len(normalized_freq_distribution)):
+                            normalized_freq_distribution[i] = sqrt(normalized_freq_distribution[i]/(maxFreq*1.0))
+                    else:
+                        continue
                     #print normalized_freq_distribution
 
 
@@ -58,5 +61,24 @@ for root, dirnames, files in os.walk(inputDir):
                     pnf+=1
 
 with open("BFC_fingerprint","wb") as f:
-    f.write(str(fingerprint))
-print fingerprint
+    #f.write(str(fingerprint))
+
+    """
+    data = []
+    for i in range(n):
+        data.append(str(i))
+    json_data = json.dumps(data)
+    print json_data
+    """
+
+    data = []
+    for i in range(n):
+        for j in range(n):
+            link = {'source':i, 'target':j, 'frequency':abs(fingerprint[i][j])}
+            data.append(link)
+
+    json_data = json.dumps(data)
+
+    f.write(json_data)
+
+#print fingerprint
