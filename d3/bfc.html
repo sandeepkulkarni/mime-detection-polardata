@@ -60,7 +60,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="bfa.html">BFA</a></li>
                 <li class="active"><a href="bfc.html">BFC</a></li>
-                <li><a href="fth.html">FHT</a></li>
+                <li><a href="fht.html">FHT</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
@@ -103,7 +103,7 @@
 <script type="text/javascript">
     var margin = { top: 50, right: 20, bottom: 100, left: 30 },
             width = 1540 - margin.left - margin.right,
-            height = 1540 - margin.top - margin.bottom,
+            height = 1500 - margin.top - margin.bottom,
             gridSize = Math.floor(width / 256),
             legendElementWidth = gridSize*10,
             buckets = 4,
@@ -193,14 +193,14 @@
                             .attr("x", function(d, i) { return legendElementWidth * i; })
                             .attr("y", height)
                             .attr("width", legendElementWidth)
-                            .attr("height", gridSize / 2)
+                            .attr("height", gridSize * 2)
                             .style("fill", function(d, i) { return colors[i]; });
 
                     legend.append("text")
                             .attr("class", "mono")
-                            .text(function(d) { return "≥ " + Math.round(d); })
+                            .text(function(d) { return "≥ " + (d).toFixed(2); })
                             .attr("x", function(d, i) { return legendElementWidth * i; })
-                            .attr("y", height + gridSize);
+                            .attr("y", height + gridSize + 20);
 
                     legend.exit().remove();
 
