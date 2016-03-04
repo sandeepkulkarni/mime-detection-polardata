@@ -196,8 +196,11 @@
         d3.json(jsonFile,
                 function(error, data) {
                     var colorScale = d3.scale.quantile()
-                            .domain(data.map(function(d){ return d.frequency}))
+                            .domain([0, buckets - 1, d3.max(data, function (d) { return d.frequency; })])
                             .range(colors);
+                    /*var colorScale = d3.scale.quantile()
+                            .domain(data.map(function(d){ return d.frequency}))
+                            .range(colors);*/
 
                     var cards = svg_4.selectAll(".hour")
                             .data(data, function(d) {return d.source+':'+d.target;});
@@ -257,7 +260,7 @@
         d3.json(jsonFile,
                 function(error, data) {
                     var colorScale = d3.scale.quantile()
-                            .domain(data.map(function(d){ return d.frequency}))
+                            .domain([0, buckets - 1, d3.max(data, function (d) { return d.frequency; })])
                             .range(colors);
 
                     var cards = svg_8.selectAll(".hour")
@@ -317,7 +320,7 @@
         d3.json(jsonFile,
                 function(error, data) {
                     var colorScale = d3.scale.quantile()
-                            .domain(data.map(function(d){ return d.frequency}))
+                            .domain([0, buckets - 1, d3.max(data, function (d) { return d.frequency; })])
                             .range(colors);
 
                     var cards = svg_16.selectAll(".hour")
